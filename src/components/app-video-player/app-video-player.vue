@@ -2,9 +2,8 @@
 <style lang="scss" src="./app-video-player.scss" scoped></style>
 
 <script lang="ts">
-import Vue from "vue";
+import { defineComponent } from "vue";
 import videojs from "video.js";
-import "videojs-contrib-quality-levels";
 import "video.js/dist/video-js.css";
 import fa from "@/assets/i18n/fa.json";
 import IconRate from "@/components/icons/IconRate.vue";
@@ -42,7 +41,7 @@ import NoInternet from "@/components/no-internet/no-internet.vue";
 import skipCredits from "../skip-credits/skip-credits.vue";
 import { apiService } from "@/api";
 
-export default Vue.extend({
+export default defineComponent({
   name: "VideoPlayer",
   components: {
     NoInternet,
@@ -1257,7 +1256,7 @@ export default Vue.extend({
       });
     },
   },
-  beforeDestroy() {
+  beforeUnmount() {
     if (this.player) {
       this.player.dispose();
     }

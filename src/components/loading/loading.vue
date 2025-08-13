@@ -2,9 +2,9 @@
 <style lang="scss" src="./loading.scss" scoped></style>
 
 <script lang="ts">
-import Vue from "vue";
+import { defineComponent } from "vue";
 
-export default Vue.extend({
+export default defineComponent({
   name: "loading"
 })
 </script>

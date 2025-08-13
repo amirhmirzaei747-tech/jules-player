@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { defineComponent } from "vue";
 import VideoPlayer from "@/components/app-video-player/app-video-player.vue";
 import { apiService } from "@/api";
 import type {
@@ -47,7 +47,7 @@ import type {
 import Loading from "@/components/loading/loading.vue";
 import Error from "@/components/error/error.vue";
 
-export default Vue.extend({
+export default defineComponent({
   name: "watch",
   components: { Error, Loading, VideoPlayer },
   data() {
