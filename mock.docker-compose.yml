@@ -1,0 +1,20 @@
+version: "3.7"
+services:
+  video-player-client-mock:
+    build:
+      context: .
+      dockerfile: mockDockerfile
+    image: video-player-client-mock:latest
+    container_name: video-player-client-mock
+    networks:
+      - saba
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "10"
+    restart: unless-stopped
+networks:
+  saba:
+    external:
+      name: saba
