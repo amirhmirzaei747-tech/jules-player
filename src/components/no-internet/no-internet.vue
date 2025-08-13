@@ -2,10 +2,10 @@
 <style lang="scss" src="./no-internet.scss" scoped></style>
 
 <script lang="ts">
-import Vue from "vue";
+import { defineComponent } from "vue";
 import IconNoInternet from "@/components/no-internet/IconNoInternet.vue";
 
-export default Vue.extend({
+export default defineComponent({
   name: "no-internet",
   components: {IconNoInternet},
   data() {

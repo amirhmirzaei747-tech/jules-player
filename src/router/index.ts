@@ -1,11 +1,8 @@
-import Vue from 'vue'
-import type { RouteConfig } from "vue-router";
-import VueRouter from "vue-router";
-import Watch from "@/views/watch/watch.vue";
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import Watch from '@/views/watch/watch.vue'
+import { nextTick } from 'vue'
 
-Vue.use(VueRouter)
-
-const routes: Array<RouteConfig> = [
+const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'watch',
@@ -21,18 +18,16 @@ const routes: Array<RouteConfig> = [
     name: 'watchParams',
     component: Watch
   },
-
 ]
 
-const router = new VueRouter({
-  mode: 'history',
-  base: '/watch',
+const router = createRouter({
+  history: createWebHistory('/watch'),
   routes
 })
 
 router.afterEach((to, from) => {
-  Vue.nextTick(() => {
-    document.title = to?.meta?.title || 'پلیر پرده آبی'
+  nextTick(() => {
+    document.title = (to?.meta?.title as string) || 'پلیر پرده آبی'
   })
 })
 

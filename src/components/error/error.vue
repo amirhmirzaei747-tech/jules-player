@@ -2,10 +2,10 @@
 <style lang="scss" src="./error.scss" scoped></style>
 
 <script lang="ts">
-import Vue from "vue";
+import { defineComponent } from "vue";
 import IconBack from "@/components/icons/IconBack.vue";
 
-export default Vue.extend({
+export default defineComponent({
   name: "error",
   components: {IconBack},
   props: {
