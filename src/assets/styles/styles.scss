@@ -1,0 +1,45 @@
+@import "./fonts";
+@import "./common";
+
+button {
+  padding: 0;
+  outline: none;
+  background: transparent;
+  box-shadow: none !important;
+  border: none;
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+}
+
+.p-relative {
+  position: relative !important;
+}
+
+.d-none {
+  display: none !important;
+}
+
+.d-flex {
+  display: flex !important;
+}
+
+.d-block {
+  display: block !important;
+}
+
+.hide {
+  opacity: 0 !important;
+}
+
+.event-none {
+  pointer-events: none;
+}
+
+.hide-on-mobile {
+  @media screen and (max-width: 600px) {
+    display: none !important;
+  }
+}

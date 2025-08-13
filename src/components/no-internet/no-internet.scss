@@ -1,0 +1,35 @@
+$toastWidth: 250px;
+
+.no-internet-toast {
+  position: absolute;
+  top: 70px;
+  background-color: darkred;
+  color: white;
+  left: -$toastWidth;
+  width: $toastWidth;
+  z-index: 100000;
+  transition: all 0.5s ease-in;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  padding: 0.5rem;
+  direction: rtl;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  align-content: center;
+  font-size: 14px;
+
+  .divider {
+    align-self: stretch;
+    width: 1px;
+    border-right: 1px solid white;
+    margin: 0 0.5rem;
+  }
+
+}
+
+.offline {
+  left: 0;
+  transition: all 0.5s ease-in;
+}

@@ -1,0 +1,25 @@
+.error-page {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(91.84% 46.87% at 50% 53.13%, #42557c 0%, #1a2947 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: white;
+  direction: rtl;
+
+  .back-btn {
+    display: flex;
+    align-items: center;
+
+    span {
+      color: white;
+      margin-left: 0.5rem;
+    }
+  }
+
+  b {
+    margin: 1rem 0;
+  }
+}

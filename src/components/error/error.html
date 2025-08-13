@@ -1,0 +1,18 @@
+<div class="error-page">
+    <template v-if="errorStatus === 404">
+        <img src="../../assets/images/404-error.png" alt="404 error">
+        <b>
+            محتوا مورد نظر یافت نشد
+        </b>
+        <button @click="backButton()" class="back-btn">
+            <span>بازگشت به صفحه قبلی</span>
+            <IconBack style="width: 20px"/>
+        </button>
+    </template>
+    <template v-else>
+        <img src="../../assets/images/500-error.png" alt="500 error">
+        <b>
+            {{errorMessage}}
+        </b>
+    </template>
+</div>

@@ -1,0 +1,185 @@
+<div class="video-container">
+
+    <div class="vjs-top-gradient">
+        <div class="title-section">
+            <img class="title-section__logo" src="../../assets/images/svg/logo/app-logo-box-blue.svg" alt="پرده آبی">
+            <span v-if="title">
+                {{ title }}
+            </span>
+        </div>
+        <div>
+            <button data-test="header-button-back" @click="backButton()" v-if="returnUrl">
+                <IconBack/>
+            </button>
+        </div>
+    </div>
+
+    <div class="vjs-custom-button">
+        <div class="vjs-play-custom-button" @click="handlePlay()">
+            <IconPlay></IconPlay>
+        </div>
+        <div class="vjs-pause-custom-button" @click="handlePause()">
+            <IconPause></IconPause>
+        </div>
+    </div>
+
+    <video ref="videoPlayer" id="videoPlayer" class="video-js">
+        <track v-for="subtitle in subtitles" :label="subtitle.label" :kind="subtitle.kind" :srclang="subtitle.srclang"
+               :src="subtitle.src"/>
+    </video>
+
+    <div id="quality-levels" class="quality-levels p-relative d-none" @click="qualityBtnToggle()"
+         @touchend="qualityBtnToggle()">
+        <ul id="qualityList">
+            <p>
+                کیفیت
+            </p>
+            <template v-if="m3u8Qualities?.length">
+                <li id="auto-quality-option" @click="qualityChangedM3U8(-1, $event)" @touchend="qualityChangedM3U8(-1, $event)">
+                    خودکار
+                    (بر اساس سرعت اینترنت شما)
+                </li>
+                <li v-for="(quality, index) of m3u8Qualities"
+                    :class="{'selected-quality-text': quality.width  === videoHeight && isAutoQualitySelected}"
+                    :key="index" @click="qualityChangedM3U8(index, $event)"
+                    @touchend="qualityChangedM3U8(index, $event)">
+                    {{ quality.width }}p
+                    <span v-if="quality.height >= 720" class="quality-label">
+                        <template v-if="quality.width >= 4320">
+                            8K
+                        </template>
+                        <template v-else-if="quality.width >= 2160">
+                            4K
+                        </template>
+                        
+                        <template v-else-if="quality.width >= 1080">
+                            FHD
+                        </template>
+                  
+      
+                        <template v-else>
+                            HD
+                        </template>
+                    </span>
+                </li>
+            </template>
+            <template v-else>
+                <li id="auto-quality-mp4-option" class="" @click="qualityChanged('', $event, 0)" @touchend="qualityChanged('', $event, 0)">
+                    خودکار
+                    (بر اساس سرعت اینترنت شما)
+                </li>
+<li v-for="(quality, index) of sortedQualities"
+    :class="{'selected-quality-text': isAutoQualitySelected && quality.src === player?.src()}"
+    :key="index"
+    @click="qualityChanged(quality.src, $event, quality.height)"
+    @touchend="qualityChanged(quality.src, $event, quality.height)">
+  {{ quality.label }}
+  <span v-if="quality.height >= 720" class="quality-label">
+    <template v-if="quality.height >= 4320">
+      8K
+    </template>
+    <template v-else-if="quality.height >= 2160">
+      4K
+    </template>
+    <template v-else-if="quality.height >= 1080 && quality.src.includes('HQ')">
+      HQ
+    </template>
+    <template v-else-if="quality.height >= 1080">
+      FHD
+    </template>
+    <template v-else>
+      HD
+    </template>
+  </span>
+</li>
+            </template>
+        </ul>
+        <IconSetting/>
+    </div>
+
+    <div id="next-episode" class="p-relative d-none" @click="nextEpisodeBtn()" @touchend="nextEpisodeBtn()">
+        <div class="show-next" id="show-next">
+            <img :src="nextVideo.thumbnailUrl" :alt="nextVideo.title">
+            <div class="next-video-text">
+                <span class="next-video-text-title">{{ nextVideo.title }}</span>
+                <button class="next-video-handle-btn" @click="nextEpisode(nextVideo.id)"
+                        @touchend="nextEpisode(nextVideo.id)">تماشا قسمت بعدی
+                </button>
+            </div>
+        </div>
+        <IconNextVideo/>
+    </div>
+
+    <div id="seekBackward" class="seek-icons" @click="handelSeekBackwardBtn()" @touchend="handelSeekBackwardBtn()">
+        <IconBackward/>
+    </div>
+
+    <div id="seekForward" class="seek-icons" @click="handelSeekForwardBtn()" @touchend="handelSeekForwardBtn()">
+        <IconForward/>
+    </div>
+
+    <!--    <div class="fullscreen-hide-control d-none">-->
+    <!--                <template v-if="ended">-->
+    <!--                    <div class="playback-animation" @click="ended = false;player.play()"-->
+    <!--                        style="opacity: 1;height: 100px;align-self: center;margin: auto">-->
+    <!--                        <IconReload></IconReload>-->
+    <!--                    </div>-->
+    <!--                </template>-->
+    <!--                <template v-else>-->
+    <!--                    <div class="seek-backward"></div>-->
+    <!--                    <div class="fill-control d-flex" style="width: 100%">-->
+    <!--                        <div class="playback-animation">-->
+    <!--                            <component :is="actionComponent"></component>-->
+    <!--                        </div>-->
+    <!--                    </div>-->
+    <!--                    <div class="seek-forward"></div>-->
+    <!--                </template>-->
+    <!--    </div>-->
+
+
+        <a class="action-btn left-hand-action-btn d-flex align-items-center bg-gray" v-if="showingAds && currentTime > 0 && currentAdOptions.clickLink" @click="addAdLog(undefined, true)"
+      :href="currentAdOptions.clickLink" target="_blank">
+        <img v-if="currentAdOptions.poster" :src="currentAdOptions.poster" alt="poster">
+        <span  >اطلاعات بیشتر</span>
+
+    </a>
+
+    <button  v-if="showingAds && currentTime > 0" class="action-btn right-hand-action-btn d-flex bg-gray translate-y-20px" 
+
+            :class="{'event-none': currentTime < currentAdOptions.skipOffset || currentAdOptions.skipOffset === 0}"
+            @click="skipAd()">
+        <img v-if="poster" :src="poster" alt="poster">
+        <span v-if="currentAdOptions.skipOffset === 0">
+            پخش بعد از آگهی
+        </span>
+        <span v-else-if="currentTime < currentAdOptions.skipOffset">
+            {{ Math.round(currentAdOptions.skipOffset - currentTime) }}
+            ثانیه
+        </span>
+        <span v-else>رد کردن آگهی</span>
+    </button>
+
+
+
+    <template v-for="credit of creditActions">
+    <div  class="action-btn right-hand-action-btn" v-if="!showingAds && credit.startTime <= currentTime && credit.endTime > currentTime && credit.endTime > 0"  >
+    <skip-credits 
+    class="action-btn right-hand-action-btn"
+    id="skip-btn"
+    :hasPosterImage="nextVideo?.thumbnailUrl && credit.actionType === 'NEXT_ITEM'" 
+    :posterImage="nextVideo.thumbnailUrl"
+    :title="credit.title"
+    @skipVideoCredit="credit.actionType === 'NEXT_ITEM' ? nextEpisode(nextVideo.id) : skipTo(credit.endTime)"
+     />
+    </div>
+    </template>
+
+    <no-internet />
+    <skip-credits 
+    id="skip-btn"
+    v-show="isOnCreditSkipRange" 
+    :title="creditSkipRangeTitle"
+    @skipVideoCredit="skipTo(skitpRangeEnd)"
+     />
+
+</div>
